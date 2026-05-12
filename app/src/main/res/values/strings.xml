@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">raitha-varta</string>
+    <string name="tagline">Your Farm Advisor</string>
+    <string name="choose_lang">Choose Language</string>
+    <string name="btn_kannada">Kannada</string>
+    <string name="btn_english">English</string>
+    <string name="bottom_daily">Daily</string>
+    <string name="bottom_success">Success</string>
+    <string name="bottom_experts">Experts</string>
+    <string name="swipe_more">Swipe for more</string>
 </resources>

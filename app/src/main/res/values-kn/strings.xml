@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ರೈತ ವಾರ್ತೆ</string>
+    <string name="tagline">ಕೃಷಿ ತಜ್ಞ ಸಲಹೆಗಾರ</string>
+    <string name="choose_lang">ಭಾಷೆಯನ್ನು ಆರಿಸಿ</string>
+    <string name="btn_kannada">ಕನ್ನಡ</string>
+    <string name="btn_english">English</string>
+    <string name="bottom_daily">ದೈನಿಕ</string>
+    <string name="bottom_success">ಯಶಸ್ಸು</string>
+    <string name="bottom_experts">ತಜ್ಞರು</string>
+    <string name="swipe_more">ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ ಸ್ವೈಪ್ ಮಾಡಿ</string>
+</resources>

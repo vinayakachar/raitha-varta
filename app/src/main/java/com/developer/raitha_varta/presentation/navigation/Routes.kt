@@ -8,6 +8,8 @@ sealed class Routes {
     @Serializable
     object SplashScreen: Routes()
     @Serializable
+    object LanguageSelectionScreen: Routes()
+    @Serializable
     object LoginScreen: Routes()
     @Serializable
     object OtpScreen: Routes()
