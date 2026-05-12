@@ -23,13 +23,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.developer.raitha_varta.R
+import com.developer.raitha_varta.presentation.navigation.Routes
 import com.developer.raitha_varta.ui.theme.ForestGreen
 import kotlinx.coroutines.delay
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun SplashScreen(onTimeout: () -> Unit = {}) {
+fun SplashScreen(navController: NavHostController) {
+
+    LaunchedEffect(key1 = true){
+        delay(2000L)
+        navController.navigate(Routes.HomeScreen){
+            popUpTo(Routes.SplashScreen) { inclusive = true }
+        }
+    }
     Box(modifier = Modifier.fillMaxSize().background(Color.White),
         contentAlignment = Alignment.Center){
         Column(horizontalAlignment = Alignment.CenterHorizontally)  {
@@ -67,9 +76,5 @@ fun SplashScreen(onTimeout: () -> Unit = {}) {
 
             )
         }
-    }
-    LaunchedEffect(Unit) {
-        delay(2000)
-        onTimeout()
     }
    }
