@@ -21,17 +21,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.developer.raitha_varta.R
+import com.developer.raitha_varta.presentation.navigation.Routes
 import com.developer.raitha_varta.ui.theme.ForestGreen
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun OtpScreen() {
-    var otpCode by remember { mutableStateOf("") }
-
+fun OtpVerifyScreen(navController: NavController, phoneNumber: String) {
    Column(
        modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 80.dp),
        horizontalAlignment = Alignment.CenterHorizontally
@@ -57,7 +57,7 @@ fun OtpScreen() {
        Spacer(modifier = Modifier.height(24.dp))
 
        Text(
-           text="RAITHA-VARTA",
+           text= stringResource(R.string.app_name).uppercase(),
            style = MaterialTheme.typography.headlineLarge,
            fontWeight = FontWeight.Bold,
            color=Color.DarkGray
@@ -66,7 +66,7 @@ fun OtpScreen() {
        Spacer(modifier = Modifier.height(8.dp))
 
        Text(
-           text = "ಕೃಷಿ ತಜ್ಞ ಸಲಹೆಗಾರ",
+           text = stringResource(R.string.tagline),
            fontWeight = FontWeight.SemiBold,
            color = ForestGreen
 
@@ -74,7 +74,7 @@ fun OtpScreen() {
 
        Spacer(modifier = Modifier.height(80.dp))
 
-       OtpVerifyCard()
+       OtpVerifyCard(navController,phoneNumber=phoneNumber)
 
 
    }

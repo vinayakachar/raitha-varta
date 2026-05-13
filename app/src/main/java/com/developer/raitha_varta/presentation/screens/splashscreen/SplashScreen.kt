@@ -29,10 +29,18 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(navController: NavHostController) {
 
+    var userIsLoggedIn=false
+
     LaunchedEffect(key1 = true){
         delay(2000L)
-        navController.navigate(Routes.HomeScreen){
-            popUpTo(Routes.SplashScreen) { inclusive = true }
+        if (userIsLoggedIn) {
+            navController.navigate(Routes.HomeScreen) {
+                popUpTo(Routes.SplashScreen) { inclusive = true }
+            }
+        } else {
+            navController.navigate(Routes.LanguageSelectionScreen) {
+                popUpTo(Routes.SplashScreen) { inclusive = true }
+            }
         }
     }
     Box(modifier = Modifier.fillMaxSize().background(Color.White),

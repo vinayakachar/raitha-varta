@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import com.developer.raitha_varta.presentation.navigation.Routes
 import com.developer.raitha_varta.presentation.ui_components.HomeScreenBottomNav
 
@@ -31,7 +32,8 @@ fun HomeScreen() {
         containerColor = Color(0xFFF1FDF6)
     ) {innerPadding->
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(innerPadding)
         ) {
             when (currentTab) {
@@ -42,4 +44,10 @@ fun HomeScreen() {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun HomeScreenPreview() {
+    HomeScreen()
 }

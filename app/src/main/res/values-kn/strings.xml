@@ -9,4 +9,16 @@
     <string name="bottom_success">ಯಶಸ್ಸು</string>
     <string name="bottom_experts">ತಜ್ಞರು</string>
     <string name="swipe_more">ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ ಸ್ವೈಪ್ ಮಾಡಿ</string>
+
+    <string name="login_header">ಮೊಬೈಲ್ ಮೂಲಕ ಪ್ರವೇಶ</string>
+    <string name="mobile_number_label">ಮೊಬೈಲ್ ಸಂಖ್ಯೆ</string>
+    <string name="phone_placeholder">9876543210</string>
+    <string name="no_country_code_hint">* ದೇಶದ ಕೋಡ್ ಸೇರಿಸಬೇಡಿ</string>
+    <string name="btn_send_otp">ಒಟಿಪಿ ಕಳುಹಿಸಿ</string>
+
+    <string name="otp_header">ಮೊಬೈಲ್ ಒಟಿಪಿ ಲಾಗಿನ್</string>
+    <string name="sent_to_label">ಕಳುಹಿಸಲಾಗಿದೆ</string>
+    <string name="enter_otp_label">೬-ಅಂಕಿಯ ಒಟಿಪಿ ನಮೂದಿಸಿ</string>
+    <string name="btn_verify_otp">ಪರಿಶೀಲಿಸಿ</string>
+    <string name="change_number_link">ಸಂಖ್ಯೆ ಬದಲಾಯಿಸಿ / ಹಿಂದಕ್ಕೆ ಹೋಗಿ</string>
 </resources>

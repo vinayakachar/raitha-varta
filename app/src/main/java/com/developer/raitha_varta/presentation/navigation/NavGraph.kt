@@ -4,10 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.developer.raitha_varta.presentation.screens.homescreen.DailyTipPagerScreen
 import com.developer.raitha_varta.presentation.screens.homescreen.HomeScreen
+import com.developer.raitha_varta.presentation.screens.languageselectionscreen.LanguageSelectionScreen
 import com.developer.raitha_varta.presentation.screens.loginscreen.LoginScreen
-import com.developer.raitha_varta.presentation.screens.otpscreen.OtpScreen
+import com.developer.raitha_varta.presentation.screens.otpscreen.OtpVerifyScreen
 import com.developer.raitha_varta.presentation.screens.splashscreen.SplashScreen
 
 @Composable
@@ -20,11 +22,18 @@ fun NavGraph(){
         composable<Routes.SplashScreen> {
             SplashScreen(navController)
         }
-        composable<Routes.LoginScreen> {
-            LoginScreen()
+
+        composable<Routes.LanguageSelectionScreen>{
+            LanguageSelectionScreen(onLanguageSelected = { lang ->
+                navController.navigate(Routes.LoginScreen)
+            })
         }
-        composable<Routes.OtpScreen> {
-            OtpScreen()
+        composable<Routes.LoginScreen> {
+            LoginScreen(navController)
+        }
+        composable<Routes.OtpVerifyScreen> {backStackEntry->
+            val otpRoute: Routes.OtpVerifyScreen = backStackEntry.toRoute()
+            OtpVerifyScreen(navController = navController, phoneNumber = otpRoute.phoneNumber)
         }
         composable<Routes.HomeScreen> {
             HomeScreen()

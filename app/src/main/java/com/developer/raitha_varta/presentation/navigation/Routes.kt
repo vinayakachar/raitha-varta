@@ -12,7 +12,7 @@ sealed class Routes {
     @Serializable
     object LoginScreen: Routes()
     @Serializable
-    object OtpScreen: Routes()
+    data class OtpVerifyScreen(val phoneNumber: String): Routes()
     @Serializable
     object HomeScreen: Routes()
     @Serializable

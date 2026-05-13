@@ -8,4 +8,16 @@
     <string name="bottom_success">Success</string>
     <string name="bottom_experts">Experts</string>
     <string name="swipe_more">Swipe for more</string>
+
+    <string name="login_header">Login Via Mobile</string>
+    <string name="mobile_number_label">Mobile Number</string>
+    <string name="phone_placeholder">9876543210</string>
+    <string name="no_country_code_hint">* Don\'t Add Country Code</string>
+    <string name="btn_send_otp">Send OTP</string>
+
+    <string name="otp_header">Mobile OTP Login</string>
+    <string name="sent_to_label">SENT TO</string>
+    <string name="enter_otp_label">Enter 6-Digit OTP</string>
+    <string name="btn_verify_otp">Verify Code</string>
+    <string name="change_number_link">Change Number / Go Back</string>
 </resources>
