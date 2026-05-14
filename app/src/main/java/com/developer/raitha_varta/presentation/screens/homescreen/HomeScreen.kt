@@ -1,5 +1,6 @@
 package com.developer.raitha_varta.presentation.screens.homescreen
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -28,11 +29,15 @@ import com.developer.raitha_varta.viewmodel.SuccessViewModel
 fun HomeScreen() {
     val context = LocalContext.current
     val app = context.applicationContext as RaithaVartaApp
+    val sharedPreferences = context.getSharedPreferences("raitha_varta_prefs", Context.MODE_PRIVATE)
 
     val viewModel: HomeViewModel = viewModel(
-        factory = HomeViewModelFactory(app.repository)
+        factory = HomeViewModelFactory(repository = (context.applicationContext as com.developer.raitha_varta.RaithaVartaApp).repository,
+
+            // ADD THIS: Provide the SharedPreferences instance
+            sharedPreferences = context.getSharedPreferences("RaithaVartaPrefs", android.content.Context.MODE_PRIVATE))
     )
-    val successViewModel: SuccessViewModel = viewModel(factory = HomeViewModelFactory(app.repository))
+    val successViewModel: SuccessViewModel = viewModel(factory = HomeViewModelFactory(app.repository, sharedPreferences))
     val storyList by successViewModel.stories.collectAsState()
 
     val tipList by viewModel.tips.collectAsState()
@@ -44,6 +49,10 @@ fun HomeScreen() {
 
     Scaffold(
         topBar = { HomeScreenHeader(
+            currentLanguage = viewModel.currentLanguage.value,
+            onLanguageSwitch = {ctx, newLocale ->
+                viewModel.toggleLanguage(ctx,newLocale)
+            },
             selectedCategoryId = viewModel.selectedCategory.value,
             onCategorySelected = { id ->
                 viewModel.updateCategory(id)

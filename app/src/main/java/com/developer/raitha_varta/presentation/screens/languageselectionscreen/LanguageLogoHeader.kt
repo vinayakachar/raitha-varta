@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.developer.raitha_varta.R
 import com.developer.raitha_varta.ui.theme.ForestGreen
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LanguageLogoHeader(){
     Column(horizontalAlignment = Alignment.CenterHorizontally) {

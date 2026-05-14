@@ -1,5 +1,6 @@
 package com.developer.raitha_varta.presentation.screens.homescreen
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,10 +14,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,13 +37,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.developer.raitha_varta.R
+import com.developer.raitha_varta.presentation.ui_components.LanguageToggleButton
 import com.developer.raitha_varta.ui.theme.ForestGreen
 
 @Composable
 fun HomeScreenHeader(
     selectedCategoryId: String,
-    onCategorySelected: (String) -> Unit
+    onCategorySelected: (String) -> Unit,
+    currentLanguage: String,
+    onLanguageSwitch: (android.content.Context, String) -> Unit,
 ) {
+    val context = LocalContext.current
+    val isKannada=currentLanguage=="kn"
     val categories = listOf(
         CropCategory("all", R.string.cat_all),
         CropCategory("paddy", R.string.cat_paddy),
@@ -53,30 +62,48 @@ fun HomeScreenHeader(
             .padding(top = 50.dp, bottom = 12.dp)
     ) {
         Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_sprout),
-                contentDescription = "Raitha Varta Logo",
-                tint = Color.White,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            Column {
-                Text(
-                    text = stringResource(R.string.app_name).uppercase(),
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+            Row(
+                modifier = Modifier.padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_sprout),
+                    contentDescription = "Raitha Varta Logo",
+                    tint = Color.White,
+                    modifier = Modifier.size(24.dp)
                 )
-                Text(
-                    text = stringResource(R.string.tagline),
-                    color = Color.White.copy(alpha = 0.8f),
-                    fontSize = 12.sp
-                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Column {
+                    Text(
+                        text = stringResource(R.string.app_name).uppercase(),
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                    Text(
+                        text = stringResource(R.string.tagline),
+                        color = Color.White.copy(alpha = 0.8f),
+                        fontSize = 12.sp
+                    )
+                }
+
             }
+            LanguageToggleButton(
+                currentLanguage = currentLanguage, // Passed down from your Main Activity/Locale state
+                onLanguageChange = { newLocale ->
+                    // 1. Update SharedPreferences
+                    // 2. Trigger your existing Locale conversion logic
+                    onLanguageSwitch(context,newLocale)
+                }
+            )
         }
+
 
         Spacer(modifier = Modifier.height(8.dp))
 

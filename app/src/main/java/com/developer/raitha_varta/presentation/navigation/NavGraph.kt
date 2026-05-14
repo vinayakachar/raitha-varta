@@ -62,9 +62,11 @@ fun NavGraph(startDestination: Any) { // Updated from String to Any for Type-Saf
 
         // 6. Daily Tips (With ViewModel injection)
         composable<Routes.DailyTipScreen> {
+            val context = LocalContext.current
             val viewModel: HomeViewModel = viewModel(
                 factory = HomeViewModelFactory(
-                    (LocalContext.current.applicationContext as RaithaVartaApp).repository
+                    (LocalContext.current.applicationContext as RaithaVartaApp).repository,
+                    sharedPreferences = context.getSharedPreferences("RaithaVartaPrefs", android.content.Context.MODE_PRIVATE)
                 )
             )
             val tips by viewModel.tips.collectAsState()
