@@ -80,9 +80,3 @@ fun LanguageSelectionScreen(onLanguageSelected: (String) -> Unit) {
     }
 
 }
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun LanguageSelectionScreenPreview(){
-    LanguageSelectionScreen(onLanguageSelected = {})
-}

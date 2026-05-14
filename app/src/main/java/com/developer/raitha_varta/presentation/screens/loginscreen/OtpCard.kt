@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -41,6 +42,7 @@ import com.developer.raitha_varta.ui.theme.ForestGreen
 
 @Composable
 fun OtpCard(
+    isLoading: Boolean,
     onOtpSend: (String) -> Unit
 ) {
     var phoneNumber by remember { mutableStateOf("") }
@@ -70,7 +72,7 @@ fun OtpCard(
 
             Text(
                 modifier = Modifier.align(Alignment.Start),
-                text=stringResource(R.string.mobile_number_label),
+                text = stringResource(R.string.mobile_number_label),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.DarkGray
@@ -80,9 +82,9 @@ fun OtpCard(
 
             OutlinedTextField(
                 value = phoneNumber,
-                onValueChange = {input->
-                    if(input.length<=10 && input.all { it.isDigit() }){
-                        phoneNumber=input
+                onValueChange = { input ->
+                    if (input.length <= 10 && input.all { it.isDigit() }) {
+                        phoneNumber = input
                     }
                 },
                 textStyle = MaterialTheme.typography.bodyLarge.copy(
@@ -99,8 +101,19 @@ fun OtpCard(
                         color = Color.Black
                     )
                 },
-                label = { Text(stringResource(R.string.phone_placeholder), color = Color(0xFFA0AEC0)) },
-                leadingIcon = { Icon(Icons.Rounded.Call, contentDescription = null, tint = ForestGreen) },
+                label = {
+                    Text(
+                        stringResource(R.string.phone_placeholder),
+                        color = Color(0xFFA0AEC0)
+                    )
+                },
+                leadingIcon = {
+                    Icon(
+                        Icons.Rounded.Call,
+                        contentDescription = null,
+                        tint = ForestGreen
+                    )
+                },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 singleLine = true,
@@ -111,7 +124,7 @@ fun OtpCard(
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent
                 )
-                )
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -127,29 +140,33 @@ fun OtpCard(
 
             Button(
                 onClick = {
-                    if(isReady) onOtpSend(phoneNumber)
+                    if (isReady && !isLoading) onOtpSend(phoneNumber)
                 },
                 modifier = Modifier.fillMaxWidth().height(64.dp),
-                enabled = true,
+                enabled = !isLoading, // Disable button while loading
                 colors = ButtonDefaults.buttonColors(
                     containerColor = ForestGreen,
                     contentColor = Color.White
-                )
-                , shape = RoundedCornerShape(16.dp)
+                ),
+                shape = RoundedCornerShape(16.dp)
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text=stringResource(R.string.btn_send_otp),
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
+                if (isLoading) {
+                    // Show a spinner instead of text while waiting for SMS
+                    androidx.compose.material3.CircularProgressIndicator(
+                        color = Color.White,
+                        modifier = androidx.compose.ui.Modifier.size(24.dp),
+                        strokeWidth = 2.dp
                     )
-
-                    Spacer(modifier = Modifier.width(8.dp))
-
-                    Icon(Icons.Default.ArrowForward, contentDescription = null,
-                    )
+                } else {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = stringResource(R.string.btn_send_otp),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Icon(Icons.Default.ArrowForward, contentDescription = null)
+                    }
                 }
             }
         }

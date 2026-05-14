@@ -1,30 +1,22 @@
 package com.developer.raitha_varta.presentation.screens.otpscreen
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Arrangement
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.rounded.Lock
-import androidx.compose.material.icons.rounded.VerifiedUser
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -36,22 +28,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.developer.raitha_varta.R
-import com.developer.raitha_varta.presentation.screens.loginscreen.OtpCard
+import com.developer.raitha_varta.presentation.navigation.Routes
 import com.developer.raitha_varta.ui.theme.ForestGreen
+import com.developer.raitha_varta.viewmodel.AuthViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.PhoneAuthProvider
 
 @Composable
-fun OtpVerifyCard(navController: NavController, phoneNumber: String) {
+fun OtpVerifyCard(navController: NavController, phoneNumber: String, authViewModel: AuthViewModel) {
     var otpCode by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val authViewModel: AuthViewModel = viewModel(
+        viewModelStoreOwner = context as ComponentActivity
+    )
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -83,7 +80,7 @@ fun OtpVerifyCard(navController: NavController, phoneNumber: String) {
 
             Text(
                 modifier = Modifier.align(Alignment.Start),
-                text=stringResource(R.string.enter_otp_label),
+                text = stringResource(R.string.enter_otp_label),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.DarkGray
@@ -99,18 +96,63 @@ fun OtpVerifyCard(navController: NavController, phoneNumber: String) {
             Spacer(modifier = Modifier.height(42.dp))
 
             Button(
-                onClick = {},
-                modifier = Modifier.fillMaxWidth().height(64.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = ForestGreen
-                )
-                , shape = RoundedCornerShape(16.dp)
+                onClick = {
+                    Log.d("VARTADEBUG", "1. Verify Button Clicked")
+                    val currentVerificationId = authViewModel.verificationId.value
+
+                    if (currentVerificationId.isEmpty()) {
+                        Log.e("VARTADEBUG", "2. ERROR: Verification ID is empty!")
+                        Toast.makeText(
+                            context,
+                            "Session expired. Please go back.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        return@Button
+                    }
+
+                    if (otpCode.length == 6) {
+                        Log.d("VARTADEBUG", "2. ID Found: $currentVerificationId. Building Credential...")
+
+                        try {
+                            val credential = PhoneAuthProvider.getCredential(
+                                currentVerificationId,
+                                otpCode
+                            )
+
+                            Log.d("VARTADEBUG", "3. Attempting Firebase Sign-In...")
+                            FirebaseAuth.getInstance()
+                                .signInWithCredential(credential)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Log.d("VARTADEBUG", "4. SUCCESS: Navigating to Home.")
+                                        navController.navigate(Routes.HomeScreen) {
+                                            popUpTo(Routes.LoginScreen) {
+                                                inclusive = true
+                                            }
+                                        }
+                                    } else {
+                                        val error = task.exception?.localizedMessage ?: "Invalid OTP"
+                                        Log.e("VARTADEBUG", "4. SIGN-IN FAILED: $error")
+                                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                        } catch (e: Exception) {
+                            Log.e("VARTADEBUG", "CRASH PREVENTED: ${e.message}")
+                        }
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp),
+                enabled = otpCode.length == 6,
+                colors = ButtonDefaults.buttonColors(containerColor = ForestGreen),
+                shape = RoundedCornerShape(16.dp)
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text= stringResource(R.string.btn_verify_otp),
+                        text = stringResource(R.string.btn_verify_otp),
                         fontSize = 20.sp
                     )
 

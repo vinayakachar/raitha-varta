@@ -1,5 +1,6 @@
 package com.developer.raitha_varta.presentation.screens.loginscreen
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,13 +23,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.developer.raitha_varta.R
 import com.developer.raitha_varta.presentation.navigation.Routes
 import com.developer.raitha_varta.ui.theme.ForestGreen
+import com.developer.raitha_varta.viewmodel.AuthViewModel
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController,authViewModel: AuthViewModel = viewModel()) {
+    val context = LocalContext.current
+    val activity = context as? android.app.Activity
+    val authViewModel: AuthViewModel = viewModel(
+        viewModelStoreOwner = context as ComponentActivity
+    )
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFFF7F9F7)
@@ -77,17 +85,17 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(80.dp))
 
             OtpCard(
+                isLoading = authViewModel.isLoading.value,
                 onOtpSend = { number: String ->
-                    navController.navigate(Routes.OtpVerifyScreen(phoneNumber = number))
+                    if (activity != null) {
+                        authViewModel.sendOtp(number, activity) {
+                            // This runs ONLY after Firebase confirms the code is sent
+                            navController.navigate(Routes.OtpVerifyScreen(phoneNumber = number))
+                        }
+                    }
                 }
             )
 
         }
     }
-}
-
-@Preview
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen(navController = NavController(LocalContext.current))
 }

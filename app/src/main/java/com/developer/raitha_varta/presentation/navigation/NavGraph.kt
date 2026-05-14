@@ -1,5 +1,6 @@
 package com.developer.raitha_varta.presentation.navigation
 
+import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -16,34 +17,50 @@ import com.developer.raitha_varta.presentation.screens.languageselectionscreen.L
 import com.developer.raitha_varta.presentation.screens.loginscreen.LoginScreen
 import com.developer.raitha_varta.presentation.screens.otpscreen.OtpVerifyScreen
 import com.developer.raitha_varta.presentation.screens.splashscreen.SplashScreen
+import com.developer.raitha_varta.viewmodel.AuthViewModel
 import com.developer.raitha_varta.viewmodel.HomeViewModel
 import com.developer.raitha_varta.viewmodel.HomeViewModelFactory
+
 @Composable
-fun NavGraph(){
-    val navController= rememberNavController()
+fun NavGraph(startDestination: Any) { // Updated from String to Any for Type-Safety
+    val navController = rememberNavController()
+
     NavHost(
         navController = navController,
-        startDestination = Routes.SplashScreen
+        startDestination = startDestination
     ) {
+        // 1. Splash Screen
         composable<Routes.SplashScreen> {
             SplashScreen(navController)
         }
 
-        composable<Routes.LanguageSelectionScreen>{
+        // 2. Language Selection
+        composable<Routes.LanguageSelectionScreen> {
             LanguageSelectionScreen(onLanguageSelected = {
                 navController.navigate(Routes.LoginScreen)
             })
         }
+
+        // 3. Login Screen
         composable<Routes.LoginScreen> {
-            LoginScreen(navController)
+            val authViewModel: AuthViewModel = viewModel(viewModelStoreOwner = LocalContext.current as ComponentActivity)
+            LoginScreen(navController, authViewModel)
         }
-        composable<Routes.OtpVerifyScreen> {backStackEntry->
-            val otpRoute: Routes.OtpVerifyScreen = backStackEntry.toRoute()
-            OtpVerifyScreen(navController = navController, phoneNumber = otpRoute.phoneNumber)
+
+        // 4. OTP Verification (Handling Arguments)
+        composable<Routes.OtpVerifyScreen> { backStackEntry ->
+            // Scope to SAME Activity - now the ID will be there!
+            val authViewModel: AuthViewModel = viewModel(viewModelStoreOwner = LocalContext.current as ComponentActivity)
+            val phoneNumber = backStackEntry.arguments?.getString("phoneNumber") ?: ""
+            OtpVerifyScreen(navController, phoneNumber, authViewModel)
         }
+
+        // 5. Main Home Screen
         composable<Routes.HomeScreen> {
             HomeScreen()
         }
+
+        // 6. Daily Tips (With ViewModel injection)
         composable<Routes.DailyTipScreen> {
             val viewModel: HomeViewModel = viewModel(
                 factory = HomeViewModelFactory(

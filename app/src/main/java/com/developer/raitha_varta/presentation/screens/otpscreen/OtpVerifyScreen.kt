@@ -25,13 +25,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.developer.raitha_varta.R
 import com.developer.raitha_varta.presentation.navigation.Routes
 import com.developer.raitha_varta.ui.theme.ForestGreen
+import com.developer.raitha_varta.viewmodel.AuthViewModel
 
 @Composable
-fun OtpVerifyScreen(navController: NavController, phoneNumber: String) {
+fun OtpVerifyScreen(navController: NavController, phoneNumber: String,
+                    authViewModel: AuthViewModel = viewModel()) {
    Column(
        modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 80.dp),
        horizontalAlignment = Alignment.CenterHorizontally
@@ -74,7 +77,7 @@ fun OtpVerifyScreen(navController: NavController, phoneNumber: String) {
 
        Spacer(modifier = Modifier.height(80.dp))
 
-       OtpVerifyCard(navController,phoneNumber=phoneNumber)
+       OtpVerifyCard(navController,phoneNumber=phoneNumber,authViewModel=authViewModel)
 
 
    }

@@ -29,28 +29,29 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(navController: NavHostController) {
 
-    var userIsLoggedIn=true
+    // LaunchedEffect handles the timed transition
+    LaunchedEffect(key1 = true) {
+        delay(2000L) // Show logo for 2 seconds
 
-    LaunchedEffect(key1 = true){
-        delay(2000L)
-        if (userIsLoggedIn) {
-            navController.navigate(Routes.HomeScreen) {
-                popUpTo(Routes.SplashScreen) { inclusive = true }
-            }
-        } else {
-            navController.navigate(Routes.LanguageSelectionScreen) {
-                popUpTo(Routes.SplashScreen) { inclusive = true }
-            }
+        // Since MainActivity handles the "Logged In" logic by skipping this screen,
+        // we only need to navigate to the onboarding start (Language Selection).
+        navController.navigate(Routes.LanguageSelectionScreen) {
+            popUpTo(Routes.SplashScreen) { inclusive = true }
         }
     }
-    Box(modifier = Modifier.fillMaxSize().background(Color.White),
-        contentAlignment = Alignment.Center){
-        Column(horizontalAlignment = Alignment.CenterHorizontally)  {
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Surface(
                 modifier = Modifier.size(120.dp),
-                color= ForestGreen,
-                shape = RoundedCornerShape(24.dp)
-
+                color = ForestGreen,
+                shape = RoundedCornerShape(24.dp),
+                shadowElevation = 8.dp // Added slight shadow for better UI
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
@@ -61,24 +62,24 @@ fun SplashScreen(navController: NavHostController) {
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(16.dp))
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text="RAITHA VARTA",
-                style=MaterialTheme.typography.headlineMedium,
+                text = "RAITHA VARTA",
+                style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
-                color=Color.DarkGray
+                color = Color.DarkGray
             )
-
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "ಕೃಷಿ ತಜ್ಞ ಸಲಹೆಗಾರ",
+                text = "ಕೃಷಿ ತಜ್ಞ ಸಲಹೆಗಾರ", // Agri Expert Advisor
+                style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = ForestGreen
-
             )
         }
     }
-   }
+}
