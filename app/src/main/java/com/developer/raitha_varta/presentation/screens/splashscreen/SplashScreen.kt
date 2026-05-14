@@ -29,7 +29,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(navController: NavHostController) {
 
-    var userIsLoggedIn=false
+    var userIsLoggedIn=true
 
     LaunchedEffect(key1 = true){
         delay(2000L)

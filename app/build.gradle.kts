@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.0"
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -79,5 +80,10 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.6.0")
 
     implementation("androidx.appcompat:appcompat:1.6.1")
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.firestore)
+    implementation(libs.kotlinx.coroutines.play.services)
 
 }

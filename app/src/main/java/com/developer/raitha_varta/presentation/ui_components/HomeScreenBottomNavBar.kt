@@ -1,5 +1,6 @@
 package com.developer.raitha_varta.presentation.ui_components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -10,34 +11,39 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.developer.raitha_varta.presentation.navigation.Routes
 import com.developer.raitha_varta.presentation.navigation.TabItem
 
 @Composable
-fun HomeScreenBottomNav(currentRoute: Routes,
-                        onNavigate: (Routes) -> Unit) {
+fun HomeScreenBottomNav(
+    currentRoute: Routes,
+    onNavigate: (Routes) -> Unit
+) {
 
-    val items=listOf(TabItem.Daily,TabItem.Success,TabItem.Experts)
+    val items = listOf(TabItem.Daily, TabItem.Success, TabItem.Experts)
 
     NavigationBar(
         contentColor = MaterialTheme.colorScheme.surface,
-        modifier = Modifier.height(100.dp),
+        modifier = Modifier
+            .height(100.dp)
+            .background(Color.White),
         tonalElevation = 8.dp
     ) {
-        items.forEach {item ->
+        items.forEach { item ->
             NavigationBarItem(
                 label = {
                     Text(
-                        text=item.label,
+                        text = stringResource(item.label),
                         fontWeight = FontWeight.Bold
                     )
                 },
-                icon={
+                icon = {
                     Icon(
                         imageVector = item.icon,
-                        contentDescription = item.label
+                        contentDescription = stringResource(item.label)
                     )
                 },
                 onClick = { onNavigate(item.route) },

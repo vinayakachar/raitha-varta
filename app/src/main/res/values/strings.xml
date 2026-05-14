@@ -20,4 +20,10 @@
     <string name="enter_otp_label">Enter 6-Digit OTP</string>
     <string name="btn_verify_otp">Verify Code</string>
     <string name="change_number_link">Change Number / Go Back</string>
+
+    <string name="cat_all">🌾 All</string>
+    <string name="cat_paddy">🌾 Paddy</string>
+    <string name="cat_coconut">🥥 Coconut</string>
+    <string name="cat_arecanut">🌴 Arecanut</string>
+    <string name="cat_tomato">🍅 Tomato</string>
 </resources>

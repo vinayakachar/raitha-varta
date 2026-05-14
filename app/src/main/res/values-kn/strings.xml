@@ -21,4 +21,10 @@
     <string name="enter_otp_label">೬-ಅಂಕಿಯ ಒಟಿಪಿ ನಮೂದಿಸಿ</string>
     <string name="btn_verify_otp">ಪರಿಶೀಲಿಸಿ</string>
     <string name="change_number_link">ಸಂಖ್ಯೆ ಬದಲಾಯಿಸಿ / ಹಿಂದಕ್ಕೆ ಹೋಗಿ</string>
+
+    <string name="cat_all">🌾 ಎಲ್ಲಾ</string>
+    <string name="cat_paddy">🌾 ಭತ್ತ</string>
+    <string name="cat_coconut">🥥 ತೆಂಗು</string>
+    <string name="cat_arecanut">🌴 ಅಡಿಕೆ</string>
+    <string name="cat_tomato">🍅 ಟೊಮ್ಯಾಟೊ</string>
 </resources>
