@@ -20,6 +20,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,7 +35,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun DailyTipPagerScreen(tips: List<TipEntity>) {
 
-    val scope = androidx.compose.runtime.rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
     if (tips.isEmpty()) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -62,7 +63,7 @@ fun DailyTipPagerScreen(tips: List<TipEntity>) {
         ) {
             HorizontalPager(
                 state = pagerState,
-                contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
                 pageSpacing = 16.dp,
                 modifier = Modifier.weight(1f).fillMaxWidth()
             ) { page ->

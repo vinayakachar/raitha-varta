@@ -26,4 +26,6 @@
     <string name="cat_coconut">🥥 Coconut</string>
     <string name="cat_arecanut">🌴 Arecanut</string>
     <string name="cat_tomato">🍅 Tomato</string>
+
+    <string name="swipe_hint">— Swipe for more instructions —</string>
 </resources>

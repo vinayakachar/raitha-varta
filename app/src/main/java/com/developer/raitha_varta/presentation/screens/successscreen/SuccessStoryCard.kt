@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.LocationOn
@@ -40,7 +42,9 @@ import com.developer.raitha_varta.ui.theme.ForestGreen
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun SuccessStoryCard(story: SuccessStoryEntity, onNextClick: () -> Unit) {
+fun SuccessStoryCard(story: SuccessStoryEntity,
+                     onNextClick: () -> Unit,
+                     onBackClick: () -> Unit, index: Int) {
     val configuration = LocalConfiguration.current
     val isKannada = configuration.locales[0].language == "kn"
 
@@ -60,21 +64,63 @@ fun SuccessStoryCard(story: SuccessStoryEntity, onNextClick: () -> Unit) {
                     contentScale = ContentScale.Crop
                 )
 
-                // Success Story Badge (Orange)
-                Surface(
-                    color = Color(0xFFE67E22),
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier.padding(12.dp).align(Alignment.TopStart)
-                ) {
-                    Text(
-                        text = if (isKannada) "ಯಶಸ್ಸಿನ ಕಥೆ • Success Story" else "Success Story",
-                        color = Color.White,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                        style = MaterialTheme.typography.labelMedium,
-                        fontWeight = FontWeight.Bold
-                    )
+                if (index > 0) {
+                    Surface(
+                        onClick = onBackClick,
+                        shape = CircleShape,
+                        color = Color.Black.copy(alpha = 0.35f), // Darker for visibility on image
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .padding(start = 12.dp, bottom = 48.dp) // Padded above the date line
+                            .size(40.dp)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                                contentDescription = null,
+                                tint = Color.White,
+                                modifier = Modifier.size(28.dp)
+                            )
+                        }
+                    }
                 }
+
+                    Surface(
+                        onClick = onNextClick,
+                        shape = CircleShape,
+                        color = Color.Black.copy(alpha = 0.35f),
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(end = 12.dp, bottom = 48.dp) // Padded above the date line
+                            .size(40.dp)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                                contentDescription = null,
+                                tint = Color.White,
+                                modifier = Modifier.size(28.dp)
+                            )
+                        }
+                    }
+
+
+                    // Success Story Badge (Orange)
+                    Surface(
+                        color = Color(0xFFE67E22),
+                        shape = RoundedCornerShape(20.dp),
+                        modifier = Modifier.padding(12.dp).align(Alignment.TopStart)
+                    ) {
+                        Text(
+                            text = if (isKannada) "ಯಶಸ್ಸಿನ ಕಥೆ • Success Story" else "Success Story",
+                            color = Color.White,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
             }
+
 
             // --- CONTENT SECTION ---
             Column(modifier = Modifier.padding(20.dp).weight(0.6f)) {
@@ -86,22 +132,25 @@ fun SuccessStoryCard(story: SuccessStoryEntity, onNextClick: () -> Unit) {
                             Spacer(Modifier.width(8.dp))
                             Text(if (isKannada) story.farmerNameKn else story.farmerNameEn, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                         }
-                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
-                            Icon(Icons.Default.LocationOn, contentDescription = null, tint = Color(0xFFD35400), modifier = Modifier.size(16.dp))
+                        Row(
+                            verticalAlignment = Alignment.Top,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.LocationOn,
+                                contentDescription = null,
+                                tint = Color(0xFFD35400),
+                                modifier = Modifier
+                                    .size(16.dp) // Optically pulls the icon down to match the text baseline
+                            )
                             Spacer(Modifier.width(8.dp))
-                            Text(if (isKannada) story.locationKn else story.locationEn, color = Color.Gray, fontSize = 14.sp)
+                            Text(
+                                text = if (isKannada) story.locationKn else story.locationEn,
+                                color = Color.Gray,
+                                fontSize = 14.sp,
+                                lineHeight = 18.sp
+                            )
                         }
-                    }
-
-                    // Floating Next Button
-                    Surface(
-                        onClick = onNextClick,
-                        shape = CircleShape,
-                        color = Color.White,
-                        shadowElevation = 4.dp,
-                        modifier = Modifier.size(45.dp)
-                    ) {
-                        Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null, tint = ForestGreen)
                     }
                 }
 
@@ -118,11 +167,12 @@ fun SuccessStoryCard(story: SuccessStoryEntity, onNextClick: () -> Unit) {
                     }
                 }
 
+                Spacer(modifier = Modifier.height(24.dp))
                 // Yield Increase Green Box
                 Surface(
                     color = ForestGreen,
                     shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth().height(80.dp)
+                    modifier = Modifier.fillMaxWidth().height(100.dp)
                 ) {
                     Row(
                         modifier = Modifier.fillMaxSize(),
@@ -141,6 +191,8 @@ fun SuccessStoryCard(story: SuccessStoryEntity, onNextClick: () -> Unit) {
                             )
                         }
                     }
+
+
                 }
             }
         }

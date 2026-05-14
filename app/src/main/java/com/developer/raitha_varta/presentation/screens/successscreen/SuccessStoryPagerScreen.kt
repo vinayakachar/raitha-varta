@@ -1,5 +1,7 @@
 package com.developer.raitha_varta.presentation.screens.successscreen
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,14 +33,23 @@ fun SuccessStoryPagerScreen(stories: List<SuccessStoryEntity>) {
             contentPadding = PaddingValues(horizontal = 24.dp, vertical = 16.dp),
             pageSpacing = 16.dp
         ) { page ->
-            SuccessStoryCard(
-                story = stories[page],
+            SuccessStoryCard(story = stories[page], index = page,
+                onBackClick = {
+                    if (pagerState.currentPage > 0) {
+                        scope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage - 1,
+                                animationSpec = spring(stiffness = Spring.StiffnessLow))
+                        }
+                    }
+                },
                 onNextClick = {
                     if (pagerState.currentPage < stories.size - 1) {
-                        scope.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) }
+                        scope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage + 1,
+                                animationSpec = spring(stiffness = Spring.StiffnessLow))
+                        }
                     }
-                }
-            )
+                })
         }
     }
 }
