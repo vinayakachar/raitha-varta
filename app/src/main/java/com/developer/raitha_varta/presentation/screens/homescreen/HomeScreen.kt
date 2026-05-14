@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.developer.raitha_varta.RaithaVartaApp
 import com.developer.raitha_varta.presentation.navigation.Routes
+import com.developer.raitha_varta.presentation.screens.expertscreen.ExpertScreen
 import com.developer.raitha_varta.presentation.ui_components.HomeScreenBottomNav
 import com.developer.raitha_varta.presentation.screens.successscreen.SuccessStoryPagerScreen
 import com.developer.raitha_varta.viewmodel.HomeViewModel
@@ -68,7 +69,9 @@ fun HomeScreen() {
                 is Routes.Success -> {
                     SuccessStoryPagerScreen(stories = storyList)
                 }
-                is Routes.ExpertScreen -> Text("Experts Screen")
+                is Routes.ExpertScreen -> {
+                    ExpertScreen()
+                }
                 else -> {}
             }
         }
