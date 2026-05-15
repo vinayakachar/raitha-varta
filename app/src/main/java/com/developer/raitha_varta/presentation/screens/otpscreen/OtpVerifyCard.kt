@@ -97,11 +97,9 @@ fun OtpVerifyCard(navController: NavController, phoneNumber: String, authViewMod
 
             Button(
                 onClick = {
-                    Log.d("VARTADEBUG", "1. Verify Button Clicked")
                     val currentVerificationId = authViewModel.verificationId.value
 
                     if (currentVerificationId.isEmpty()) {
-                        Log.e("VARTADEBUG", "2. ERROR: Verification ID is empty!")
                         Toast.makeText(
                             context,
                             "Session expired. Please go back.",
@@ -111,7 +109,6 @@ fun OtpVerifyCard(navController: NavController, phoneNumber: String, authViewMod
                     }
 
                     if (otpCode.length == 6) {
-                        Log.d("VARTADEBUG", "2. ID Found: $currentVerificationId. Building Credential...")
 
                         try {
                             val credential = PhoneAuthProvider.getCredential(
@@ -119,12 +116,10 @@ fun OtpVerifyCard(navController: NavController, phoneNumber: String, authViewMod
                                 otpCode
                             )
 
-                            Log.d("VARTADEBUG", "3. Attempting Firebase Sign-In...")
                             FirebaseAuth.getInstance()
                                 .signInWithCredential(credential)
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
-                                        Log.d("VARTADEBUG", "4. SUCCESS: Navigating to Home.")
                                         navController.navigate(Routes.HomeScreen) {
                                             popUpTo(Routes.LoginScreen) {
                                                 inclusive = true
@@ -132,12 +127,10 @@ fun OtpVerifyCard(navController: NavController, phoneNumber: String, authViewMod
                                         }
                                     } else {
                                         val error = task.exception?.localizedMessage ?: "Invalid OTP"
-                                        Log.e("VARTADEBUG", "4. SIGN-IN FAILED: $error")
                                         Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
                                     }
                                 }
                         } catch (e: Exception) {
-                            Log.e("VARTADEBUG", "CRASH PREVENTED: ${e.message}")
                         }
                     }
                 },
