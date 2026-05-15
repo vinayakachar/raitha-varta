@@ -79,3 +79,16 @@ Agricultural extension services often provide dense, text-heavy manuals that are
 ### Build & Run
 ```bash
 ./gradlew assembleDebug
+```
+
+To run tests:
+
+```bash
+./gradlew test
+```
+
+To run lint checks:
+
+```bash
+./gradlew lint
+```
