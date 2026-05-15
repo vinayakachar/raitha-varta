@@ -71,12 +71,17 @@ Agricultural extension services often provide dense, text-heavy manuals that are
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### 1. Clone the Repository
+```bash
+git clone [https://github.com/vinayakachar/raitha-varta.git](https://github.com/vinayakachar/raitha-varta.git)
+```
+
+### 2. Prerequisites
 - Android Studio Ladybug (or latest stable)
 - JDK 17+
 - Android SDK 34+
 
-### Build & Run
+### 3. Build & Run
 ```bash
 ./gradlew assembleDebug
 ```
@@ -92,3 +97,13 @@ To run lint checks:
 ```bash
 ./gradlew lint
 ```
+---
+
+## 🔮 Future Roadmap
+
+To evolve **Raitha-Varta** from a Minimum Viable Product (MVP) to a full-scale agricultural ecosystem, the following phases are planned:
+
+- **Phase 2: AI-Powered Pest Diagnosis** – Integration of **TensorFlow Lite** or **MediaPipe** to allow farmers to identify crop diseases by simply taking a photo.
+- **Phase 3: Voice-Command Navigation** – Implementing **Speech-to-Text** in Kannada and English to assist farmers who may have difficulty typing while working in the field.
+- **Phase 4: Hyper-Local Weather Integration** – Adding a module that provides real-time weather alerts and "Next Best Action" advice based on upcoming rainfall.
+- **Phase 5: Marketplace Connectivity** – A direct link to verified local seed and fertilizer vendors based on the recommendations provided in the flashcards.
