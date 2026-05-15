@@ -6,9 +6,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -37,6 +40,7 @@ fun LoginScreen(navController: NavController,authViewModel: AuthViewModel = view
     val authViewModel: AuthViewModel = viewModel(
         viewModelStoreOwner = context as ComponentActivity
     )
+    val scrollState = rememberScrollState()
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFFF7F9F7)
@@ -44,7 +48,9 @@ fun LoginScreen(navController: NavController,authViewModel: AuthViewModel = view
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 24.dp, vertical = 80.dp),
+                .padding(horizontal = 24.dp, vertical = 80.dp)
+                .imePadding()
+                .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Surface(
