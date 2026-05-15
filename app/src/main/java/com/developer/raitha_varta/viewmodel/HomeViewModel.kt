@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.developer.raitha_varta.data.TipEntity
 import com.developer.raitha_varta.data.TipRepository
+import com.developer.raitha_varta.presentation.util.updateAppLanguage
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -56,6 +57,8 @@ class HomeViewModel(
     // 2. Persistent Language Toggle
     fun toggleLanguage(context: android.content.Context, newLocale: String) {
         _currentLanguage.value = newLocale
+
+        updateAppLanguage(context, newLocale)
 
         // 1. Persist the choice
         sharedPreferences.edit().putString("selected_language", newLocale).apply()
